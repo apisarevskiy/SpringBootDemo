@@ -14,8 +14,6 @@ public class SpringBootDemoApplication {
         ApplicationRunner application = context.getBean(ApplicationRunner.class);
         application.runApplication();
 
-//        Logger logger = LoggerFactory.getLogger(SpringBootDemoApplication.class);
-//        logger.info("Моя первая запись в логгер");
     }
 
 }
