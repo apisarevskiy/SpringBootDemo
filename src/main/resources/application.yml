@@ -1,4 +1,5 @@
 # applications settings
 application:
     countRightQuestions: 3
-    pathFileCsv: "src/main/resources/quiz.csv"
+    pathFileCsvEng: "src/main/resources/quizEng.csv"
+    pathFileCsvRu: "src/main/resources/quizRu.csv"
