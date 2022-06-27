@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 public class AppConfigImpl implements AppConfig {
 
     private String pathFileCsvEng;
-
-    private String PathFileCsvRu;
+    private String pathFileCsvRu;
     private String pathFileCsv;
 
     private int countRightQuestions;
@@ -22,7 +21,7 @@ public class AppConfigImpl implements AppConfig {
     }
 
     public void setPathFileCsvRu(String getPathFileCsvRu) {
-        this.PathFileCsvRu = getPathFileCsvRu;
+        this.pathFileCsvRu = getPathFileCsvRu;
     }
 
     public void setCountRightQuestions(int countRightQuestions) {
