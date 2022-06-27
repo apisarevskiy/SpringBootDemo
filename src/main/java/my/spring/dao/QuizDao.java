@@ -1,4 +1,4 @@
-package com.example.springbootdemo.dao;
+package my.spring.dao;
 
 import my.spring.domain.Person;
 import my.spring.domain.Quiz;

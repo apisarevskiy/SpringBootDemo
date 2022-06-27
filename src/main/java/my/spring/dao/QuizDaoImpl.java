@@ -1,4 +1,4 @@
-package com.example.springbootdemo.dao;
+package my.spring.dao;
 
 import my.spring.config.AppConfig;
 import my.spring.domain.Person;

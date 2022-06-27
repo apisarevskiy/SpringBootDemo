@@ -1,4 +1,4 @@
-package com.example.springbootdemo.config;
+package my.spring.config;
 
 public interface AppConfig {
 

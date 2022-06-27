@@ -1,4 +1,4 @@
-package com.example.springbootdemo.service;
+package my.spring.service;
 
 public interface QuizService {
 

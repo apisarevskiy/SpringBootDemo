@@ -1,4 +1,4 @@
-package com.example.springbootdemo.domain;
+package my.spring.domain;
 
 public class Person {
 

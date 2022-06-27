@@ -1,8 +1,6 @@
-package com.example.springbootdemo;
+package my.spring;
 
-import com.example.springbootdemo.service.ApplicationRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import my.spring.service.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
