@@ -1,23 +1,27 @@
 package my.spring.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@PropertySource("classpath:config.properties")
-@Service
+@ConfigurationProperties("application")
+@Component
 public class AppConfigImpl implements AppConfig {
 
-    @Value("${db.pathCsv}")
     private String pathFileCsv;
 
-    @Value("${db.countRightQuestions}")
-    private String countRightQuestions;
+    private int countRightQuestions;
 
-    public String getPathFileCsv() {
-        return pathFileCsv.replace("\"", "");
+    public void setPathFileCsv(String pathFileCsv) {
+        this.pathFileCsv = pathFileCsv;
     }
 
-    public int getCountRightQuestions() {
-        return Integer.parseInt(countRightQuestions.replace("\"", ""));}
+    public void setCountRightQuestions(int countRightQuestions) {
+        this.countRightQuestions = countRightQuestions;
+    }
+    public String getPathFileCsv() { return pathFileCsv; }
+
+    public int getCountRightQuestions() { return countRightQuestions; }
 }
