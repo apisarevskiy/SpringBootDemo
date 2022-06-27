@@ -3,10 +3,12 @@ package my.spring.service;
 import my.spring.dao.QuizDao;
 import my.spring.domain.Person;
 import my.spring.domain.Quiz;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class QuizServiceImpl implements QuizService {
@@ -18,12 +20,14 @@ public class QuizServiceImpl implements QuizService {
     private List<Integer> listPersonAnswers;
     private int countRightQuestions;
     private boolean isPlayQuiz = false;
+    private MessageSource messages;
 
-    public QuizServiceImpl(QuizDao dao) {
+    public QuizServiceImpl(QuizDao dao, MessageSource messages) {
         this.dao = dao;
-        this.ioService = new IOServiceImpl();
+        this.ioService = new IOServiceImpl(messages);
         this.listOfQuiz = new ArrayList<Quiz>();
         this.listPersonAnswers = new ArrayList<Integer>();
+        this.messages = messages;
     }
 
     public void initQuizService() {
@@ -40,7 +44,7 @@ public class QuizServiceImpl implements QuizService {
 
     public void createPersonByName() {
 
-        ioService.outputStringln("\n" + "Welcome. Enter your name: ");
+        ioService.outputStringln("\n" + messages.getMessage("prop.welcome", null, Locale.getDefault()));
         personQuiz = dao.findPersonByName(ioService.getUserInput());
     }
 
@@ -48,11 +52,11 @@ public class QuizServiceImpl implements QuizService {
 
         Boolean exitMenu = false;
 
-        ioService.outputStringln("\n" + "------------------MENU------------------");
-        ioService.outputStringln("1. Show list of questions and answers");
-        ioService.outputStringln("2. Start Quiz");
-        ioService.outputStringln("3. Exit");
-        ioService.outputString("\n" + "Your answer: ");
+        ioService.outputStringln("\n" + messages.getMessage("prop.list.menu", null, Locale.getDefault()));
+        ioService.outputStringln(messages.getMessage("prop.list.menu.first", null, Locale.getDefault()));
+        ioService.outputStringln(messages.getMessage("prop.list.menu.two", null, Locale.getDefault()));
+        ioService.outputStringln(messages.getMessage("prop.list.menu.three", null, Locale.getDefault()));
+        ioService.outputString("\n" + messages.getMessage("prop.list.menu.answer", null, Locale.getDefault()));
 
         while (!exitMenu) {
             switch (ioService.getUserInputDigitChoise(3)) {
@@ -74,14 +78,14 @@ public class QuizServiceImpl implements QuizService {
 
     public void playQuiz() {
 
-        ioService.outputStringln("\n" + "------------------Let's start the quiz------------------");
-        ioService.outputStringln("\n" + "Choose the correct answer to the quetsion: ");
+        ioService.outputStringln("\n" + messages.getMessage("prop.play.quiz.start", null, Locale.getDefault()));
+        ioService.outputStringln("\n" + messages.getMessage("prop.play.quiz.question", null, Locale.getDefault()));
 
         for (var instanceQuiz : listOfQuiz) {
             instanceQuiz.showQuestionQuiz();
             instanceQuiz.showAnswersQuiz();
 
-            ioService.outputString("\n" + "Your answer: ");
+            ioService.outputString("\n" + messages.getMessage("prop.list.menu.answer", null, Locale.getDefault()));
             listPersonAnswers.add(ioService.getUserInputDigitChoise(instanceQuiz.getAnswers().size()));
         }
 
@@ -90,7 +94,7 @@ public class QuizServiceImpl implements QuizService {
 
     public void showListofQuiz() {
 
-        ioService.outputStringln("\n" + "------------------List of Quiz------------------");
+        ioService.outputStringln("\n" + messages.getMessage("prop.list.quiz", null, Locale.getDefault()));
 
         for (var instanceQuiz : listOfQuiz) {
             instanceQuiz.showQuestionQuiz();
@@ -103,28 +107,37 @@ public class QuizServiceImpl implements QuizService {
         int result = 0;
 
         if (isPlayQuiz) {
-            ioService.outputStringln("\n" + "------------------" + personQuiz.getName() +
-                                          " your answers below------------------" + "\n");
+            ioService.outputStringln("\n" + "------------------" + personQuiz.getName() + " " +
+                                          messages.getMessage("prop.result.quiz.answers.below", null,
+                                                  Locale.getDefault()) + "\n");
 
             try {
                 for (int i = 0; i < listOfQuiz.size(); i++) {
                     if (listOfQuiz.get(i).getRightAnswer() == listPersonAnswers.get(i)) {
-                        ioService.outputStringln("for " + (i+1) + " question, answer is " + listPersonAnswers.get(i) + " - correct");
+                        ioService.outputStringln(messages.getMessage("prop.result.quiz.for", null, Locale.getDefault()) + " " + (i+1)
+                                + " " + messages.getMessage("prop.result.question.answer", null, Locale.getDefault()) +
+                                listPersonAnswers.get(i) + " " + messages.getMessage("prop.result.correct", null, Locale.getDefault()));
                         result++;
                     } else {
-                        ioService.outputStringln("for " + (i+1) + " question, answer is " + listPersonAnswers.get(i) + " - incorrect");}
+                        ioService.outputStringln(messages.getMessage("prop.result.quiz.for", null, Locale.getDefault()) + " " + (i+1)
+                                + " " + messages.getMessage("prop.result.question.answer", null, Locale.getDefault()) +
+                                listPersonAnswers.get(i) + " " + messages.getMessage("prop.result.incorrect", null, Locale.getDefault()));}
                 }
             } catch (IndexOutOfBoundsException ex) {
                 ioService.outputStringln(ex.getMessage());
             }
 
-            ioService.outputStringln("\n" + "Total number of correct answers is : " + result);
+            ioService.outputStringln("\n" + messages.getMessage("prop.result.total.answer", null,
+                    Locale.getDefault()) + result);
 
-            if (result >= countRightQuestions) { ioService.outputStringln("\n" + "Congratulations!!! You have won the quiz!!!");
-            } else { ioService.outputStringln("\n" + "Sorry, you failed the quiz. You need to give correct answers to " +
-                        countRightQuestions + " or more questions."); }
+            if (result >= countRightQuestions) { ioService.outputStringln("\n" + messages.getMessage("prop.result.congratulation", null,
+                    Locale.getDefault()));
+            } else { ioService.outputStringln("\n" + messages.getMessage("prop.result.failed", null,
+                    Locale.getDefault()) + countRightQuestions + " " + messages.getMessage("prop.result.more.question", null,
+                    Locale.getDefault())); }
 
-            ioService.outputStringln("Thanks for taking the quiz.");
+            ioService.outputStringln(messages.getMessage("prop.result.thanks", null,
+                    Locale.getDefault()));
 
         }
     }

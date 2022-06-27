@@ -1,13 +1,17 @@
 package my.spring.service;
 
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 import java.util.Scanner;
 
 public class IOServiceImpl implements IOService {
 
     private final Scanner scanner;
+    private MessageSource messages;
 
-    IOServiceImpl() {
-
+    IOServiceImpl(MessageSource messages) {
+        this.messages = messages;
         scanner = new Scanner(System.in);
     }
 
@@ -32,7 +36,8 @@ public class IOServiceImpl implements IOService {
             } else {
                 scanner.next();}
 
-            outputString("\n" + "Enter a number from 1 to " + upperBound + " : ");
+            outputString("\n" + messages.getMessage("prop.io.enter.number", null,
+                    Locale.getDefault()) + " " + upperBound + " : ");
         }
 
         return userChoice;
