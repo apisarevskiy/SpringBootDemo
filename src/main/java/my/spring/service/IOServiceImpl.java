@@ -37,7 +37,7 @@ public class IOServiceImpl implements IOService {
                 scanner.next();}
 
             outputString("\n" + messages.getMessage("prop.io.enter.number", null,
-                    Locale.getDefault()) + " " + upperBound + " : ");
+                    Locale.getDefault()) + upperBound + ": ");
         }
 
         return userChoice;

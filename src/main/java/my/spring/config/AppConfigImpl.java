@@ -6,6 +6,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @ConfigurationProperties("application")
 @Component
 public class AppConfigImpl implements AppConfig {
@@ -27,7 +29,18 @@ public class AppConfigImpl implements AppConfig {
     public void setCountRightQuestions(int countRightQuestions) {
         this.countRightQuestions = countRightQuestions;
     }
-    public String getPathFileCsv() { return pathFileCsvEng; }
+    public String getPathFileCsv() {
+
+        String locale = Locale.getDefault().getCountry();
+
+        switch (Locale.getDefault().getCountry()) {
+            case "RU":
+                pathFileCsv = pathFileCsvRu;
+                break;
+            default:
+                pathFileCsv = pathFileCsvEng;
+        }
+        return pathFileCsv; }
 
     public int getCountRightQuestions() { return countRightQuestions; }
 }
